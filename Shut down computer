@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//用goto语句实现
 int main()
 {
 	char input[20] = { 0 };
@@ -18,6 +19,24 @@ again:
 	else
 	{
 		goto again;
+	}
+	return 0;
+}
+
+//用while语句实现
+int main()
+{
+	char input[20] = { 0 };
+	system("shutdown -s -t 60");//set and time
+	while (1)
+	{
+		printf("您的电脑将在一分钟之后关闭，请输入：我是猪，就可以取消关机程序\n请输入：");
+		scanf("%s", input);
+		if (strcmp(input, "我是猪") == 0)
+		{
+			system("shutdown -a");//abolish
+			break;
+		}
 	}
 	return 0;
 }
