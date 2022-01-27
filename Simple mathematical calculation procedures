@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+//1.计算1/1-1/2+1/3-1/4.......+1/99-1/100的值，并打印出来
+int main()
+{
+	int i = 0;
+	//int sum = 0;
+	double sum = 0.0;
+	int flag = 1;
+	for (i = 1; i <= 100; i++)
+	{
+		sum += flag * 1.0 / i;
+		flag = -flag;
+	}
+	printf("%lf\n", sum);
+	return 0;
+}
+
+//2.找出十个数中的最大值MAX
+int main()
+{
+	int arr[] = { 21, 42, 8, 19, 30, 97, 12, 25, 68, 85 };
+	int max = arr[0];//注意：此处不能写成0，因为有可能十个数全都是负数，则0为最大数Max
+	int i = 0;
+	int size = sizeof(arr) / sizeof(arr[0]);//计算array中有多少个数字
+	for (i = 1; i < size; i++)
+	{
+		if (arr[i]>max)
+		{
+			max = arr[i];
+		}
+	}
+	printf("max = %d\n", max);
+	return 0;
+}
+
+//3.在屏幕中输出九九乘法表口诀
+int main()
+{
+	int i = 0;
+	for (i = 1; i <= 9; i++)
+	{
+		int j = 1;
+		for (j = 1; j <= i; j++)
+		{
+			printf("%d*%d=%-2d ", i, j, i*j);//"-"表示左对齐，正数表示右对齐，2d表示一个数占两个格子
+		}
+		printf("\n");
+	}
+	return 0;
+}
