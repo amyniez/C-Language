@@ -67,3 +67,36 @@ int main()
 	}
 	return 0;
 }
+
+//4.演示多个字符从两端移动，向中间汇聚
+#include <stdio.h>
+#include <string.h>//strlen()
+#include <windows.h>
+#include <stdlib.h>
+
+int main()
+{
+	char arr1[] = "Thank god!!!";
+	char arr2[] = "************";
+	
+	//char arr1[]="abc";
+	//表示为[a b c \0]，一共四个字符
+	//所以要减去2，即4-2
+	//int right = sizeof(arr1) / sizeof(arr1[0]) - 2;
+	int left = 0;
+	int right = strlen(arr1) - 1;
+
+	while (left <= right)
+	{
+		arr2[left] = arr1[left];
+		arr2[right] = arr1[right];
+		printf("%s\n", arr2);
+		//休息一秒，以毫秒为单位
+		Sleep(1000);
+		system('cls');//cls-clean screen-清空屏幕
+		left++;
+		right--;
+	}
+	printf("%s\n", arr2);
+	return 0;
+}
