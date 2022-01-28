@@ -1,8 +1,27 @@
+#include <stdio.h>
+#include <string.h>
 
+//1.计算n的阶乘之和
+int main()
+{
+	int i = 0;
+	int n = 0;
+	//int ret = 1;
+	int sum = 0;
+	for (n = 1; n <= 8; n++)
+	{
+		//注意ret的位置,ret始终要从1开始累积
+		//否则计算出的结果可能会出现错误
+		int ret = 1;
+		for (i = 1; i <= n; i++)
+		{
+			ret *= i;
+		}
+		sum = sum + ret;
+	}
 	printf("sum = %d\n", sum);
 	return 0;
 }
-
 
 //2.从数组中找到某个数字的位置
 int main()
