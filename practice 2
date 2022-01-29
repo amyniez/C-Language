@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+
+ //1.将三个数按照从大到小输出
+int main()
+{
+	int a = 0;
+	int b = 0;
+	int c = 0;
+	scanf("%d %d %d", &a, &b, &c);
+
+	if (a < b)
+	{
+		int tmp = a;
+		a = b;
+		b = tmp;
+	}
+	if (a < c)
+	{
+		int tmp = b;
+		b = a;
+		a = tmp;
+	}
+	printf("%d %d %d\n" ,a, b, c);
+	return 0;
+}
+
+
+//2.给出两个数，求出这两个数的最大公约数
+//  辗转相除法
+int main()
+{
+	int a = 0;
+	int b = 0;
+	int c = 0;
+	scanf("%d %d", &a, &b);
+	while (a%b)//36%20=16为真，开始循环
+	{
+		c = a%b;
+		//将a、b向后移动一位
+		a = b;
+		b = c;
+	}
+	printf("最大公约数 = %d\n", b);
+	return 0;
+}
+
+
+//3.判断year是否为闰年
+int main()
+{
+	int year = 0;
+	int count = 0;
+	for (year = 2000; year <= 2050; year++)
+	{
+		if ((year % 4 == 0) && (year % 100 != 0) || (year % 4 == 0))
+		{
+			printf("%d ", year);
+			count++;
+		}
+	}
+	printf("\ncount = %d\n", count);
+	return 0;
+}
