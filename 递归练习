@@ -1,0 +1,120 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+
+//递归：就是一个函数自己调用自己的一种方法，把大型的问题转化为与原问题相似的规模较小的问题，即大事化小的思想
+//      我调用我自己
+//练习1：接受一个整型值（无符号），按照顺序打印他的每一位：
+#include <stdio.h>
+void print(int n)//不需要返回值，所以用void
+{
+	//例如：
+	//print(1234)
+	//print(123) 4      // 留下的问题与原问题相似
+	//print(12) 3 4
+	//print(1) 2 3 4
+
+	//当数字只有个位数时，直接输出，不需要进行递归
+	//如果不加入限制条件，递归将造成栈溢出，stack overflow
+	if (n > 9)
+	{
+		//首先:1234/10=123,剩下一个4输出
+		print(n / 10);
+	}
+	printf("%d ", n % 10);
+}
+
+int main()
+{
+	unsigned int num = 0;
+	scanf("%d", &num);
+	print(num);
+	return 0;
+}
+
+
+//练习2：编写函数不允许创建临时变量(count为临时变量)，求字符串长度
+#include <stdio.h>
+//int my_strlen(char* str)//返回值是一个长度值，所以用int
+//{
+//	int count = 0;
+//	while (*str != '\0') // arr：welcome\0
+//	{
+//		str++;
+//		count++;
+//	}
+//	return count;
+//}
+
+//递归的方法：把大事化小
+//my_strlen("welcom") -> 1 + my_strlen("welco") -> 1 + 1 + my_strlen("welc")......->1 + 1 + 1 + 1 + 1 + 1 + 0
+int my_strlen(char* str)
+{
+	if (*str != '\0')
+	{
+		return 1 + my_strlen(str + 1);
+	}
+	return 0;
+}
+
+int main()
+{
+	char arr[] = "welcom";
+	int len = my_strlen(arr);//arr是数组，数组传参，传过去的是首元素的地址，
+	printf("len = %d\n", len);
+	return 0;
+}
+
+
+//练习3：求n的阶乘
+#include <stdio.h>
+int Fac(int n)
+{
+	if (n <= 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return n*Fac(n - 1);
+	}
+}
+
+int main()
+{
+	int n = 0;
+	int ret = 0;
+	scanf("%d", &n);
+	ret = Fac(n);//循环的方式，递归
+	printf("%d\n", ret);
+
+	return 0;
+}
+
+
+//练习4：输出斐波那契数列
+//即1、1、2、3、5、8、13、21、34、55.......
+#include <stdio.h>
+
+int Fib(int n)
+{
+	if (n <= 2)
+	{
+		return 1;
+	}
+	else
+	{
+		return Fib(n - 1) + Fib(n - 2);
+	}
+}
+
+int main()
+{
+	int n = 8;
+	int ret = 0;
+	scanf("请输入：%d\n", &n);
+	ret = Fib(n);
+	printf("ret：%d",ret);
+
+	return 0;
+}
+
