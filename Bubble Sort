@@ -4,13 +4,15 @@
 //冒泡排序
 void bubble_sort(int arr[], int sz)
 {
+	//确定冒泡排序的趟数
 	int i = 0;
 	for (i = 0; i < sz - 1; i++)
 	{
 		int j = 0;
-		int flag = 1;
+		int flag = 1;//函数优化，假设arr数组已经完全有序
 		for (j = 0; j < sz - 1; j++)
 		{
+			//数字交换
 			if (arr[j]>arr[j + 1])
 			{
 				int tmp = arr[j];
@@ -21,7 +23,7 @@ void bubble_sort(int arr[], int sz)
 		}
 		if (flag == 1)
 		{
-			break;
+			break;//跳出整个for循环，直接返回到主函数
 		}
 	}
 	return 0;
@@ -31,8 +33,8 @@ int main()
 {
 	int arr[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
 	int i = 0;
-	int sz = sizeof(arr) / sizeof(arr[0]);
-	bubble_sort(arr, sz);
+	int sz = sizeof(arr) / sizeof(arr[0]);//计算sz只能放在主函数里，不能放在自定义函数中
+	bubble_sort(arr, sz);//要同时传参：arr和sz，arr实际上传递的是数组arr首元素的地址，即&arr[0]
 	for (i = 0; i < sz; i++)
 	{
 		printf("%d ", arr[i]);
