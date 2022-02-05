@@ -1,0 +1,181 @@
+//game.h：游戏功能封装
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define ROW 15
+#define COL 15
+#define ROWS ROW + 2
+#define COLS COL + 2
+#define COUNT 20
+
+//声明
+void InitBoard(char board[ROWS][COLS], int rows, int cols, char set);
+void DisplayBoard(char board[ROWS][COLS], int row, int col);
+void SetMine(char board[ROWS][COLS], int row, int col);
+void FindMine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col);
+int get_mine_number(char mine[ROWS][COLS], int x, int y);
+
+
+//mine_sweeper.c:游戏框架
+#define _CRT_SECURE_NO_WARNINGS 1
+#include "game.h"
+
+void menu()
+{
+	printf("************************************************\n");
+	printf("***************      1.play     ****************\n");
+	printf("***************      0.exit     ****************\n");
+	printf("************************************************\n");
+}
+
+void game()
+{
+	//储存雷的信息
+	//首先，布置好雷的信息
+	char mine[ROWS][COLS] = { 0 };
+	//第二步，排查出雷的信息
+	char show[ROWS][COLS] = { 0 };
+	//初始化
+	InitBoard(mine, ROWS, COLS, '0');//将非雷储存为0，后台运行的表格，不打印出来
+	InitBoard(show, ROWS, COLS, '*');//将非雷储存为*,用户所看到的表格
+	//打印表格
+	//DisplayBoard(mine, ROW, COL);//只需要打印9*9的表格即可
+	DisplayBoard(show, ROW, COL);
+	//布置雷
+	SetMine(mine, ROW, COL);
+	//开始扫雷
+	FindMine(mine, show, ROW, COL);
+}
+
+void test()
+{
+	int input = 0;
+	srand((unsigned int)time(NULL));
+	do
+	{
+		menu();
+		printf("请选择：>");
+		scanf("%d", &input);
+		switch (input)
+		{
+		case 0:
+			printf("游戏结束，退出游戏！\n");
+			break;
+		case 1:
+			game();
+			break;
+		default:
+			printf("选择错误，请重新选择！\n");
+			break;
+		} 
+	} while (input);
+}
+
+int main()
+{
+	test();
+	return 0;
+}
+
+
+//game.c：游戏功能具体实现
+#define _CRT_SECURE_NO_WARNINGS 1
+#include "game.h"
+
+void InitBoard(char board[ROWS][COLS], int rows, int cols, char set)
+{
+	int i = 0;
+	int j = 0;
+	for (i = 0; i < rows; i++)
+	{
+		for (j = 0; j < cols; j++)
+		{
+			board[i][j] = set;
+		}
+	}
+}
+
+void DisplayBoard(char board[ROWS][COLS], int row, int col)
+{
+	int i = 0;
+	int j = 0;
+	//打印列号（从0开始，到9结束，一共10个数，左上角为0）
+	for (i = 0; i <= col; i++)
+	{
+		printf("%2d ", i);
+	}
+	printf("\n");
+	for (i = 1; i <= row; i++)
+	{ 
+		//打印行号（从1开始，到9结束，一共9个数）
+		printf("%2d ", i);
+		for (j = 1; j <= col; j++)
+		{
+			printf(" %c ", board[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void SetMine(char board[ROWS][COLS], int row, int col)
+{
+	int count = COUNT;//设置雷的数量为10
+	while (count)
+	{
+		int x = rand() % row + 1;//随机生成雷的坐标
+		int y = rand() % col + 1;
+		if (board[x][y] == '0')
+		{
+			board[x][y] = '1';
+			count--;//当雷的数量为0时，跳出循环，停止布置雷
+		}
+	}
+}
+
+void FindMine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
+{
+	int x = 0;
+	int y = 0;
+	int win = 0;
+	while (1)
+	{
+		printf("请输入您想下的坐标：>");
+		scanf("%d%d", &x, &y);
+		if (x >= 1 && x <= row&&y >= 1 && y <= col)
+		{
+			//玩家输入的坐标合法
+			//1.踩雷
+			if (mine[x][y] == '1')
+			{
+				printf("很遗憾，你踩雷了！\n");
+				DisplayBoard(mine, row, col);
+				break;
+			}
+			else//没有踩雷
+			{
+				//计算（x,y）坐标周围有几个雷
+				int count = get_mine_number(mine, x, y);
+				show[x][y] = count + '0';
+				DisplayBoard(show, row, col);
+				win++;
+			}
+		}
+		else
+		{
+			printf("输入的坐标非法，请重新输入！\n");
+		}
+	}
+	if (win == row*col - COUNT)
+	{
+		printf("恭喜你，排雷成功！！！\n");
+		DisplayBoard(mine, row, col);
+	}
+}
+
+int get_mine_number(char mine[ROWS][COLS], int x, int y)
+{
+	return mine[x - 1][y] + mine[x - 1][y - 1] + mine[x][y - 1] + 
+		mine[x + 1][y - 1] + mine[x + 1][y] + mine[x + 1][y + 1] + 
+		mine[x][y + 1] + mine[x - 1][y + 1] - 8 * '0';
+}
